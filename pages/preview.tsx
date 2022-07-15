@@ -1,32 +1,35 @@
 /* React JS Template using functions */
 import React, {useContext, useEffect} from "react"
-// import {v4 as uuid} from "uuid"
-// import {db, storage} from "./firebase";
-// import firebase from "firebase";
+import {v4 as uuid} from "uuid"
+import {db, storage} from "../lib/firebase";
+import firebase from "firebase";
 import {PhotoContext} from "../lib/context";
 import {useRouter} from "next/router";
+import {GrFormClose} from "react-icons/gr"
+import {MdOutlineKeyboardArrowRight} from "react-icons/md"
 
 
-export default function PreviewScreen() {
-    const {photo} = useContext(PhotoContext)
+export default function PreviewPage() {
+    // @ts-ignore
+    const {photo, setPhoto} = useContext(PhotoContext)
     const router = useRouter()
 
-    // useEffect(() => {
-    //     if (!cameraImage) {
-    //         router.push("/")
-    //     }
-    // }, [cameraImage, navigation])
+    useEffect(() => {
+        if (!photo) {
+            router.push("/capture")
+        }
+    }, [photo])
 
-    // const closePreview = () => {
-    //     dispatch(resetCameraImage());
-    //     router.push("/")
-    // }
+    const closePreview = () => {
+        setPhoto("")
+        router.push("/capture")
+    }
 
     const sendPost = () => {
         const id = uuid();
         const uploadTask = storage
             .ref(`posts/${id}`)
-            .putString(cameraImage, "data_url");
+            .putString(photo, "data_url");
 
         uploadTask.on("state_changed", null, (error) => {
             console.log(error);
@@ -41,7 +44,7 @@ export default function PreviewScreen() {
                         read: false,
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     })
-                    navigation("/chats")
+                    router.push("/chats")
                 })
         });
 
@@ -49,14 +52,14 @@ export default function PreviewScreen() {
 
 
     return (
-        <div className={"preview relative"}>
-            {/*<CloseIcon className={"preview_close absolute top-4 right-4 text-red-500 cursor-pointer"} fontSize={"large"}*/}
-            {/*           onClick={closePreview}/>*/}
+        <div className={"relative"}>
+            <GrFormClose className={"absolute top-4 left-4 text-gold bg-gold rounded-lg cursor-pointer text-3xl"} fontSize={"large"}
+                       onClick={closePreview}/>
             <img src={photo} alt={""}/>
             <div onClick={sendPost}
-                 className={"preview__footer absolute w-32 bottom-4 right-6 bg-yellow-300 flex justify-between items-center rounded-full p-3 cursor-pointer"}>
+                 className={"absolute w-32 bottom-4 right-6 bg-gold flex justify-between items-center rounded-full p-3 cursor-pointer"}>
                 <h2>Send now</h2>
-                {/*<SendIcon fontSize={"small"}/>*/}
+                <MdOutlineKeyboardArrowRight className={"text-3xl"} />
             </div>
         </div>
     )

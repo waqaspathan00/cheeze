@@ -13,9 +13,10 @@ const videoConstraints = {
     facingMode: "user"
 }
 
-export default function Home() {
+export default function CapturePage() {
     const webcamRef = useRef(null);
     const router = useRouter();
+    // @ts-ignore
     const {setPhoto} = useContext(PhotoContext)
 
     const capture = useCallback(() => {
