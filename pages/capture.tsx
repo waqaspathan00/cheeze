@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
 // import {setCameraImage} from "./features/cameraSlice";
 import {useRouter} from "next/router";
 import {BsFillStopCircleFill} from "react-icons/bs";
-import {PhotoContext} from "../lib/context";
+import {PhotoContext, UserContext} from "../lib/context";
 
 const videoConstraints = {
     width: 600,
@@ -14,6 +14,7 @@ const videoConstraints = {
 }
 
 export default function CapturePage() {
+    const {user} = useContext(UserContext);
     const webcamRef = useRef(null);
     const router = useRouter();
     // @ts-ignore

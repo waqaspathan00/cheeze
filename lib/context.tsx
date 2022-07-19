@@ -6,7 +6,7 @@ export const UserContext = createContext({ user: null })
 export const UserProvider = ({children}) => {
     const userData = useUserData()
 
-	return <PhotoContext.Provider value={userData}>{children}</PhotoContext.Provider>
+	return <UserContext.Provider value={userData}>{children}</UserContext.Provider>
 }
 
 export const PhotoContext = createContext({})

@@ -18,7 +18,7 @@ export default function PreviewPage() {
         if (!photo) {
             router.push("/capture")
         }
-    }, [photo])
+    }, [photo, router])
 
     const closePreview = () => {
         setPhoto("")
