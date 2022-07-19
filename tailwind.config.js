@@ -16,6 +16,7 @@ module.exports = {
             "darkgold": "#D0AE33",
             "darkblue": "#1C223C",
             "darkgrey": "#161515",
+            "grey": "#808080",
             "lightgrey": "#D8E0FF"
         },
         fontFamily: {

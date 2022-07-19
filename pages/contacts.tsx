@@ -76,17 +76,40 @@ export default function ContactsPage() {
     console.log(contacts)
 
     return (
-        <div>
+        <div className={"flex flex-col items-center"}>
             <SignOutButton router={router}/>
             {contacts && contacts.map((contact) => (
-                <div>
-                    <h1>{contact.username}</h1>
-                    <h2>{contact.status}</h2>
-                </div>
+                <ContactCard username={contact.username} status={contact.status} avatar={contact.avatar}/>
             ))}
         </div>
     )
 }
+
+function ContactCard({username, status, avatar}) {
+    function MessageType({color}){
+        const messageColor = "bg-" + color
+        console.log(messageColor)
+
+        return <div className={`w-6 h-6 rounded-md ${messageColor}`}></div>
+        // return <div className={`w-6 h-6 rounded-md bg-blue`}></div>
+    }
+
+    return (
+        <div className={"flex justify-between items-center bg-white m-2 p-4 rounded-xl w-3/4 md:w-1/2 hover:scale-110 transition-all"}>
+            <div className={"flex items-center"}>
+                <img className={"w-16 rounded-full border-2 mr-4"} src={avatar} alt={""}/>
+                <div>
+                    <h1>{username}</h1>
+                    <h2 className={"text-grey text-sm font-open"}>{status}</h2>
+                </div>
+            </div>
+            {/*<MessageType color={"red"}/>*/}
+        </div>
+    )
+
+}
+
+
 
 /**
  * contact data
