@@ -91,7 +91,7 @@ function ContactCard({username, status, avatar}) {
 
     return (
         <div
-            className={"flex justify-between items-center bg-white m-2 p-4 rounded-xl w-3/4 md:w-1/2 hover:scale-105 transition-all"}>
+            className={"flex justify-between items-center bg-white m-1 p-4 rounded-xl w-11/12 sm:w-1/2 hover:scale-105 transition-all"}>
             <div className={"flex items-center"}>
                 <img className={"w-16 rounded-full border-2 mr-4"} src={avatar} alt={""}/>
                 <div>
