@@ -16,9 +16,13 @@ export default function ContactsPage() {
 
     useEffect(() => {
         async function getAddedContacts() {
-            const doc = await db.collection(user.uid).doc("added-contacts").get()
-            const data = doc.data()
-            return data.contacts;
+            try {
+                const doc = await db.collection(user.uid).doc("added-contacts").get()
+                const data = doc.data()
+                return data.contacts;
+            } catch (e) {
+                return []
+            }
         }
 
         async function getProfiles() {
@@ -51,6 +55,8 @@ export default function ContactsPage() {
         )
     }
 
+    console.log(contacts)
+
     return (
         <div className={"flex flex-col items-center"}>
             <div className={"w-full flex justify-around"}>
@@ -65,9 +71,12 @@ export default function ContactsPage() {
                     <IoMdPersonAdd size={48} color={""}/>
                 </button>
             </div>
-            {contacts && contacts.map((contact) => (
-                <ContactCard username={contact.username} status={contact.status} avatar={contact.avatar}/>
-            ))}
+            {contacts.length
+                ? contacts.map((contact) => (
+                    <ContactCard key={contact.username} username={contact.username} status={contact.status} avatar={contact.avatar}/>
+                ))
+                : <h1>you have no contacts added</h1>
+            }
         </div>
     )
 }
