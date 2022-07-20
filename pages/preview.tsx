@@ -26,30 +26,29 @@ export default function PreviewPage() {
     }
 
     const sendPost = () => {
-        const id = uuid();
-        const uploadTask = storage
-            .ref(`posts/${id}`)
-            .putString(photo, "data_url");
-
-        uploadTask.on("state_changed", null, (error) => {
-            console.log(error);
-        }, () => {
-            storage.ref("posts")
-                .child(id)
-                .getDownloadURL()
-                .then((url) => {
-                    db.collection("posts").add({
-                        imageUrl: url,
-                        username: "Wizard",
-                        read: false,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
-                    router.push("/chats")
-                })
-        });
-
+        router.push("/contacts")
+        // const id = uuid();
+        // const uploadTask = storage
+        //     .ref(`posts/${id}`)
+        //     .putString(photo, "data_url");
+        //
+        // uploadTask.on("state_changed", null, (error) => {
+        //     console.log(error);
+        // }, () => {
+        //     storage.ref("posts")
+        //         .child(id)
+        //         .getDownloadURL()
+        //         .then((url) => {
+        //             db.collection("posts").add({
+        //                 imageUrl: url,
+        //                 username: "Wizard",
+        //                 read: false,
+        //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        //             })
+        //             router.push("/contacts")
+        //         })
+        // });
     }
-
 
     return (
         <div className={"relative"}>

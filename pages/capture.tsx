@@ -8,8 +8,8 @@ import {BsFillStopCircleFill} from "react-icons/bs";
 import {PhotoContext, UserContext} from "../lib/context";
 
 const videoConstraints = {
-    width: 600,
-    height: 1000,
+    width: 390,
+    height: 844,
     facingMode: "user"
 }
 

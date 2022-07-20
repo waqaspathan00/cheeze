@@ -4,11 +4,15 @@ import {UserContext} from "../lib/context";
 import {db} from "../lib/firebase";
 import {SignInButton, SignOutButton} from "../components/AuthButtons";
 import {useRouter} from "next/router";
+import {IoIosPerson, IoMdPersonAdd} from "react-icons/io";
+import Loader from "../components/Loader";
+import toast from "react-hot-toast";
 
 export default function ContactsPage() {
     const router = useRouter();
     const {user} = useContext(UserContext);
     const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getAddedContacts() {
@@ -18,6 +22,7 @@ export default function ContactsPage() {
         }
 
         async function getProfiles() {
+            setLoading(true)
             const profileData = []
             const addedContacts = await getAddedContacts();
             for (const contact of addedContacts) {
@@ -26,58 +31,40 @@ export default function ContactsPage() {
                 profileData.push(data)
             }
             setContacts(profileData)
+            setLoading(false)
         }
 
         if (!user) {
+            router.push("/")
+            toast.error("You must sign in first")
             return
         }
 
         getProfiles()
+    }, [router, user])
 
-        // async function getAddedContacts() {
-        //     const snapshot = await db.collection('added-contacts').get()
-        //     const collection = {};
-        //     snapshot.forEach(doc => {
-        //         collection[doc.id] = doc.data();
-        //     });
-        //     return collection;
-        // }
-
-        // if (user) {
-        // const profileData = []
-        // const addedContactsRef = db.collection(user.uid).doc("added-contacts");
-        // addedContactsRef.get().then((doc) => {
-        // if (doc.exists) {
-        //     const data = doc.data()
-        //     const addedContacts = data.contacts
-        //
-        //     // get the profile data for each contact the user has added
-        //     addedContacts.forEach((contact) => {
-        //         const profileRef = db.collection("profiles").doc(contact);
-        //         db.collection("profiles").get()
-        //         profileRef.get().then(doc => console.log(doc))
-        //         profileRef.get().then((doc) => {
-        //             // console.log(doc)
-        //             if (doc.exists) {
-        //                 const data = doc.data();
-        //                 profileData.push(data)
-        //                 // console.log("updating with: ", data)
-        //             }
-        //         })
-        //     })
-        // console.log("called with this data", profileData)
-
-        // }
-        // })
-        // setContacts(profileData)
-        // }
-    }, [user])
-
-    console.log(contacts)
+    if (loading) {
+        return (
+            <div className={"flex justify-center items-center mt-80"}>
+                <Loader show={loading}/>
+            </div>
+        )
+    }
 
     return (
         <div className={"flex flex-col items-center"}>
-            <SignOutButton router={router}/>
+            <div className={"w-full flex justify-around"}>
+                <button
+                    onClick={() => router.push("/profile")}
+                    className={"bg-gold hover:bg-darkgold transition-all rounded-full p-2 m-4 w-1/3 flex justify-center"}>
+                    <IoIosPerson size={48} color={""}/>
+                </button>
+                <button
+                    onClick={() => router.push("/add-friend")}
+                    className={"bg-gold hover:bg-darkgold transition-all rounded-full p-2 m-4 w-1/3 flex justify-center"}>
+                    <IoMdPersonAdd size={48} color={""}/>
+                </button>
+            </div>
             {contacts && contacts.map((contact) => (
                 <ContactCard username={contact.username} status={contact.status} avatar={contact.avatar}/>
             ))}
@@ -86,16 +73,16 @@ export default function ContactsPage() {
 }
 
 function ContactCard({username, status, avatar}) {
-    function MessageType({color}){
+    function MessageType({color}) {
         const messageColor = "bg-" + color
-        console.log(messageColor)
 
         return <div className={`w-6 h-6 rounded-md ${messageColor}`}></div>
         // return <div className={`w-6 h-6 rounded-md bg-blue`}></div>
     }
 
     return (
-        <div className={"flex justify-between items-center bg-white m-2 p-4 rounded-xl w-3/4 md:w-1/2 hover:scale-110 transition-all"}>
+        <div
+            className={"flex justify-between items-center bg-white m-2 p-4 rounded-xl w-3/4 md:w-1/2 hover:scale-105 transition-all"}>
             <div className={"flex items-center"}>
                 <img className={"w-16 rounded-full border-2 mr-4"} src={avatar} alt={""}/>
                 <div>
@@ -108,7 +95,6 @@ function ContactCard({username, status, avatar}) {
     )
 
 }
-
 
 
 /**

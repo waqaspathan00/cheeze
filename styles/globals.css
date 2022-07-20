@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --blue: #3B66FF;
+  --gold: #FFD43B;
+  --darkgold: #D0AE33;
+  --darkblue: #1C223C;
+  --darkgrey: #161515;
+  --lightgrey: #D8E0FF;
+}
+
 html, body {
   padding: 0;
   margin: 0;
@@ -16,4 +25,15 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.loader {
+  border: 10px solid var(--gold);
+  border-top: 10px solid var(--darkgold);
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
