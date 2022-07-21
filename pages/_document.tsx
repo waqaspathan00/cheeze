@@ -7,9 +7,8 @@ export default function Document() {
             <Head>
                 <link rel="icon" type="image/x-icon" href="/img/logo.png"/>
                 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-                {/*<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={"anonymous"}/>*/}
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={"use-credentials"}/>
-                {/*<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={""}/>*/}
+                {/* @ts-ignore */}
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
                 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap"
                       rel="stylesheet"/>
             </Head>

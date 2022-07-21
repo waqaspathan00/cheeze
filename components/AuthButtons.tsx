@@ -16,7 +16,7 @@ export const SignInButton = ({router}) => {
         <button className={"btn-google h-16 w-40 px-2 py-2 bg-white rounded-lg flex justify-around items-center"}
                 onClick={signInWithGoogle}>
             <img src={"/img/google.png"} className={"w-8"} alt={"google logo"}/>
-            <span className={"text-lg font-fredoka text-black"}>Sign in</span>
+            <span className={"text-lg text-black"}>Sign in</span>
         </button>
     )
 }

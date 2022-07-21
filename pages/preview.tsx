@@ -1,8 +1,5 @@
 /* React JS Template using functions */
 import React, {useContext, useEffect} from "react"
-import {v4 as uuid} from "uuid"
-import {db, storage} from "../lib/firebase";
-import firebase from "firebase";
 import {PhotoContext} from "../lib/context";
 import {useRouter} from "next/router";
 import {GrFormClose} from "react-icons/gr"
@@ -26,28 +23,7 @@ export default function PreviewPage() {
     }
 
     const sendPost = () => {
-        router.push("/contacts")
-        // const id = uuid();
-        // const uploadTask = storage
-        //     .ref(`posts/${id}`)
-        //     .putString(photo, "data_url");
-        //
-        // uploadTask.on("state_changed", null, (error) => {
-        //     console.log(error);
-        // }, () => {
-        //     storage.ref("posts")
-        //         .child(id)
-        //         .getDownloadURL()
-        //         .then((url) => {
-        //             db.collection("posts").add({
-        //                 imageUrl: url,
-        //                 username: "Wizard",
-        //                 read: false,
-        //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        //             })
-        //             router.push("/contacts")
-        //         })
-        // });
+        router.push("/select-contacts")
     }
 
     return (
