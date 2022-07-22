@@ -43,12 +43,6 @@ export default function ContactsPage() {
             setLoading(false)
         }
 
-        if (!user) {
-            router.push("/")
-            toast.error("You must sign in first")
-            return
-        }
-
         getProfiles()
     }, [router, user])
 
@@ -62,6 +56,7 @@ export default function ContactsPage() {
     }
 
     function handleSend() {
+        // change selectedContacts[0] so that it loops through list instead
         const id = uuid();
         const uploadTask = storage
             .ref(`${user.uid}/${id}`)

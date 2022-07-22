@@ -2,7 +2,7 @@ import {createContext, useState} from "react";
 import {useUserData} from "./hooks";
 
 // when user logs in their information will be saved in this context
-export const UserContext = createContext({ user: null, profile: null })
+export const UserContext = createContext({ user: null, profile: {username: ""} })
 export const UserProvider = ({children}) => {
     const userData = useUserData()
 

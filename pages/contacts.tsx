@@ -39,14 +39,14 @@ export default function ContactsPage() {
             setLoading(false)
         }
 
-        if (!user) {
-            router.push("/")
-            toast.error("You must sign in first")
-            return
-        }
+        // if (!user) {
+        //     router.push("/")
+        //     toast.error("You must sign in first")
+        //     return
+        // }
 
         getProfiles()
-    }, [router, user])
+    }, [user])
 
     if (loading) {
         return (
@@ -55,8 +55,6 @@ export default function ContactsPage() {
             </div>
         )
     }
-
-    console.log(contacts)
 
     return (
         <div className={"flex flex-col items-center"}>
@@ -74,8 +72,9 @@ export default function ContactsPage() {
             </div>
             {contacts.length
                 ? contacts.map((contact) => (
-                    <ContactCard key={contact.username} username={contact.username}
-                                 status={contact.status} avatar={contact.avatar}>
+                    // <ContactCard key={contact.username} username={contact.username}
+                    //              status={contact.status} avatar={contact.avatar}>
+                    <ContactCard key={contact.username} username={contact.username}>
 
                     </ContactCard>
                 ))
