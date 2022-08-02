@@ -7,16 +7,17 @@ import {IoIosPerson, IoMdPersonAdd} from "react-icons/io";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import ContactCard from "../components/ContactCard";
-import {PurpleMessage} from "../components/ContactCardChildren";
-
+import {MessageBox} from "../components/ContactCardMessageTypes";
+import {Message} from "postcss";
+import "bootstrap/dist/css/bootstrap.min.css"
 export default function ContactsPage() {
     const router = useRouter();
-    const {user} = useContext(UserContext);
+    const {user, profile} = useContext(UserContext);
     const [contacts, setContacts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function getAddedContacts() {
+        async function getAddedContacts(): Promise<string[]> {
             try {
                 const doc = await db.collection(user.uid).doc("added-contacts").get()
                 const data = doc.data()
@@ -31,12 +32,19 @@ export default function ContactsPage() {
             const profileData = []
             const addedContacts = await getAddedContacts();
             for (const contact of addedContacts) {
-                const doc = await db.collection("profiles").doc(contact).get();
-                const data = doc.data();
-                profileData.push(data)
+                const profilesDoc = await db.collection("profiles").doc(contact).get();
+                const messagesDoc = await db.collection("messages").doc(profile.username).collection(contact).get();
+
+                // get a list of all messages sent by this contact
+                const contactData = profilesDoc.data();
+                const messages = messagesDoc.docs.map(doc => doc.data())
+
+                const totalData = {...contactData, messages}
+                profileData.push(totalData)
             }
             setContacts(profileData)
             setLoading(false)
+            return profileData
         }
 
         // if (!user) {
@@ -45,8 +53,10 @@ export default function ContactsPage() {
         //     return
         // }
 
-        getProfiles()
-    }, [user])
+        if (profile){
+            getProfiles()
+        }
+    }, [profile, user])
 
     if (loading) {
         return (
@@ -72,29 +82,12 @@ export default function ContactsPage() {
             </div>
             {contacts.length
                 ? contacts.map((contact) => (
-                    // <ContactCard key={contact.username} username={contact.username}
-                    //              status={contact.status} avatar={contact.avatar}>
-                    <ContactCard key={contact.username} username={contact.username}>
-
-                    </ContactCard>
+                    <ContactCard key={contact.username} username={contact.username}
+                                 child={<MessageBox messages={contact.messages}/>}
+                    />
                 ))
                 : <h1>you have no contacts added</h1>
             }
         </div>
     )
 }
-
-/**
- * contact data
- * - username
- * - messageType
- *
- * profile data
- * - username
- * - status
- * - profile picture
- *
- * - get list of contacts
- * - use contact names in list to get profile data (status and profpic)
- *
- */

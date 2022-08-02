@@ -52,7 +52,6 @@ export default function ContactsPage() {
         } else {
             setSelectedContacts(selectedContacts.filter((contact) => contact !== username))
         }
-        console.log(selectedContacts)
     }
 
     function handleSend() {
@@ -69,7 +68,7 @@ export default function ContactsPage() {
                 .child(id)
                 .getDownloadURL()
                 .then((url) => {
-                    db.collection("messages").doc(selectedContacts[0]).set({
+                    db.collection("messages").doc(selectedContacts[0]).collection(profile.username).add({
                         imageUrl: url,
                         username: profile.username,
                         read: false,
@@ -105,10 +104,10 @@ export default function ContactsPage() {
             </div>
             {contacts.length
                 ? contacts.map((contact) => (
-                    <ContactCard key={contact.username} username={contact.username}
-                                 status={contact.status} avatar={contact.avatar}>
-                        <CheckBox add={(checked) => selectContact(checked, contact.username)}/>
-                    </ContactCard>
+                    <ContactCard key={contact.username}
+                                 username={contact.username}
+                                 child={<CheckBox add={(checked) => selectContact(checked, contact.username)}/>}
+                    />
                 ))
                 : <h1>you have no contacts added</h1>
             }
