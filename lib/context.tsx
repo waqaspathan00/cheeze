@@ -6,6 +6,7 @@ export const UserContext = createContext({ user: null, profile: {username: ""} }
 export const UserProvider = ({children}) => {
     const userData = useUserData()
 
+	// @ts-ignore
 	return <UserContext.Provider value={userData}>{children}</UserContext.Provider>
 }
 
